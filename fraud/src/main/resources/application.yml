@@ -1,6 +1,6 @@
 spring:
   application:
-    name: fraud_app_name
+    name: fraudx
   datasource:
     username: postgres
     password: admin
