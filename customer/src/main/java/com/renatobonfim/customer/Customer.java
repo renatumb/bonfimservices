@@ -16,7 +16,7 @@ public class Customer {
     @Id
     @SequenceGenerator(name = "customer_id_sequence")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "customer_id_sequence")
-    private Long id;
+    private Integer id;
 
     String firstName;
     String lastName;

@@ -1,4 +1,4 @@
-package com.renatobonfim.fraud;
+package com.renatobonfim.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }
