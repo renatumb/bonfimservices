@@ -2,6 +2,8 @@ package com.renatobonfim.customer;
 
 import com.renatobonfim.clients.fraud.FraudCheckResponse;
 import com.renatobonfim.clients.fraud.FraudClient;
+import com.renatobonfim.clients.notification.NotificationClient;
+import com.renatobonfim.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +15,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
 
     public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         Customer customer = Customer.builder()
@@ -31,6 +34,13 @@ public class CustomerService {
         if (fraudCheckResponse2.isFraudster() ) {
             throw new IllegalStateException("fraudster");
         }
+
+        NotificationRequest notificationRequest = new NotificationRequest(
+                customer.getId(),
+                customer.getFirstName(),
+                String.format("Hi %s %s, welcome ... ", customer.getFirstName(),customer.getLastName() ));
+
+        notificationClient.sendNotification( notificationRequest );
     }
 
 }
