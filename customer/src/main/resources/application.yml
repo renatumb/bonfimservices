@@ -15,6 +15,8 @@ spring:
     show-sql: true
   zipkin:
     base-url: http://127.0.0.1:9411/
+  rabbitmq:
+    addresses: localhost:5672
 server:
   port: 8080
 

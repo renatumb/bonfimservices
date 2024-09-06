@@ -1,5 +1,6 @@
 package com.renatobonfim.customer;
 
+import com.renatbonfim.mq.RabbitMQMessageProducer;
 import com.renatobonfim.clients.fraud.FraudCheckResponse;
 import com.renatobonfim.clients.fraud.FraudClient;
 import com.renatobonfim.clients.notification.NotificationClient;
@@ -16,6 +17,8 @@ public class CustomerService {
     private final RestTemplate restTemplate;
     private final FraudClient fraudClient;
     private final NotificationClient notificationClient;
+
+    private final RabbitMQMessageProducer rabbitMQMessageProducer;
 
     public void registerCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
         Customer customer = Customer.builder()
@@ -40,7 +43,12 @@ public class CustomerService {
                 customer.getFirstName(),
                 String.format("Hi %s %s, welcome ... ", customer.getFirstName(),customer.getLastName() ));
 
-        notificationClient.sendNotification( notificationRequest );
+        //notificationClient.sendNotification( notificationRequest );
+        rabbitMQMessageProducer.publishMessage(
+                "my.defined.exchange",
+                "routing001",
+                notificationRequest
+        );
     }
 
 }
