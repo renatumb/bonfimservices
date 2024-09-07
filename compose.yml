@@ -1,0 +1,62 @@
+services:
+  eureka-service:
+    image: renatumb/eureka-server
+    container_name: eurekacontainer
+    ports:
+      -  8761:8761
+    networks:
+      - somenamenet
+    environment:
+      - SPRING_PROFILES_ACTIVE=fordockera
+##
+  api-gateway-service:
+    image: renatumb/api-gateway
+    container_name: api-gateway-container
+    ports:
+      - 8083:8083
+    networks:
+      - somenamenet
+    environment:
+      - SPRING_PROFILES_ACTIVE=fordockerb
+    depends_on:
+      - eureka-service
+##
+  customer-service:
+    image: renatumb/customer
+    container_name: customercontainer
+    ports:
+      - 8080:8080
+    networks:
+      - somenamenet
+    environment:
+        - SPRING_PROFILES_ACTIVE=fordockerc
+    depends_on:
+      - api-gateway-service
+      - eureka-service
+##
+  fraud-service:
+    image: renatumb/fraud
+    container_name: fraudcontainer
+    ports:
+      - 8081:8081
+    networks:
+      - somenamenet
+    environment:
+      - SPRING_PROFILES_ACTIVE=fordockerd
+    depends_on:
+      - customer-service
+##
+  notification-service:
+    image: renatumb/notification
+    container_name: notificationcontainer
+    ports:
+      - 8082:8082
+    networks:
+      - somenamenet
+    environment:
+      - SPRING_PROFILES_ACTIVE=fordockere
+    depends_on:
+      - customer-service
+networks:
+    somenamenet:
+      driver: bridge

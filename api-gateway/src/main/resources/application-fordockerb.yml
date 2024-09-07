@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: apigwx
+  zipkin:
+    base-url: http://host.docker.internal:9411/       # the docker container is talking back to real host, as localhost would refer to the container itself
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://CUSTOMERX
+          predicates:
+            - Path=/api/v1/customers/**
+server:
+  port: 8083
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekacontainer:8761/eureka/          # 'eurekacontainer' name defined in  docker compose file. Both containers must be same network
+#      defaultZone: http://host.docker.internal:8761/eureka/    # 'host.docker.internal' container communicating to the real host

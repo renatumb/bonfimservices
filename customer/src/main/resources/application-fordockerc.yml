@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: customerx
+  datasource:
+    username: postgres
+    password: admin
+    url: jdbc:postgresql://host.docker.internal:5432/microservice_customer
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  zipkin:
+    base-url: http://host.docker.internal:9411/
+  rabbitmq:
+    addresses: host.docker.internal:5672
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekacontainer:8761/eureka/
