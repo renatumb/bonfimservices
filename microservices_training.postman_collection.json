@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "6152c8ea-ed09-41c7-811b-d8e80e26cbf5",
+		"name": "microservices_training",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34579101"
+	},
+	"item": [
+		{
+			"name": "create customer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"tmp = pm.collectionVariables.get(\"counter\");\r",
+							"tmp++ ;\r",
+							"pm.collectionVariables.set(\"counter\", tmp);\r",
+							"\r",
+							"letters = String.fromCharCode(tmp) + String.fromCharCode(tmp) + String.fromCharCode(tmp);\r",
+							"\r",
+							"pm.collectionVariables.set(\"data_test\", letters);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"fname {{data_test}}\",\r\n    \"lastName\":\"lname {{data_test}}\",\r\n    \"email\":\"email@{{data_test}}.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{microservice_host}}:{{microservice_customer_port}}/{{microservice_customer_baseurl}}",
+					"protocol": "http",
+					"host": [
+						"{{microservice_host}}"
+					],
+					"port": "{{microservice_customer_port}}",
+					"path": [
+						"{{microservice_customer_baseurl}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "microservice_host",
+			"value": "127.0.0.1",
+			"type": "string"
+		},
+		{
+			"key": "microservice_customer_port",
+			"value": "8083",
+			"type": "string"
+		},
+		{
+			"key": "microservice_customer_baseurl",
+			"value": "api/v1/customers"
+		},
+		{
+			"key": "data_test",
+			"value": "zzzzzz"
+		},
+		{
+			"key": "counter",
+			"value": "97",
+			"type": "string"
+		}
+	]
+}
